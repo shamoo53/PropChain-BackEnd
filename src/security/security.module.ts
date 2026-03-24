@@ -8,6 +8,8 @@ import { ApiQuotaService } from './services/api-quota.service';
 import { SecurityHeadersService } from './services/security-headers.service';
 import { HeaderValidationMiddleware } from './middleware/header-validation.middleware';
 import { SecurityController } from './security.controller';
+import { AdvancedRateLimitGuard } from './guards/advanced-rate-limit.guard';
+import { SensitiveEndpointRateLimitGuard } from './guards/sensitive-endpoint-rate-limit.guard';
 
 @Module({
   imports: [ConfigModule, RedisModule],
@@ -19,6 +21,8 @@ import { SecurityController } from './security.controller';
     ApiQuotaService,
     SecurityHeadersService,
     HeaderValidationMiddleware,
+    AdvancedRateLimitGuard,
+    SensitiveEndpointRateLimitGuard,
   ],
   exports: [
     RateLimitingService,
@@ -27,6 +31,8 @@ import { SecurityController } from './security.controller';
     ApiQuotaService,
     SecurityHeadersService,
     HeaderValidationMiddleware,
+    AdvancedRateLimitGuard,
+    SensitiveEndpointRateLimitGuard,
   ],
 })
 export class SecurityModule {}
