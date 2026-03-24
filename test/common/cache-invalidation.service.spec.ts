@@ -14,13 +14,19 @@ describe('CacheInvalidationService', () => {
   let loggerErrorSpy: jest.SpyInstance;
 
   beforeAll(() => {
-    // Suppress ALL Logger error messages for this test suite
-    loggerErrorSpy = jest.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
+    // Suppress ALL Logger messages for this test suite
+    jest.spyOn(Logger.prototype, 'log').mockImplementation(() => {});
+    jest.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
+    jest.spyOn(Logger.prototype, 'warn').mockImplementation(() => {});
+    jest.spyOn(Logger.prototype, 'debug').mockImplementation(() => {});
+    jest.spyOn(Logger.prototype, 'verbose').mockImplementation(() => {});
   });
 
+
   afterAll(() => {
-    loggerErrorSpy.mockRestore();
+    jest.restoreAllMocks();
   });
+
 
   beforeEach(async () => {
 

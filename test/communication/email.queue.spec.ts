@@ -30,16 +30,20 @@ jest.mock('bull', () => {
 });
 
 
-let loggerErrorSpy: jest.SpyInstance;
-
 describe('EmailQueueService', () => {
   beforeAll(() => {
-    loggerErrorSpy = jest.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
+    // Suppress ALL Logger messages for this test suite
+    jest.spyOn(Logger.prototype, 'log').mockImplementation(() => {});
+    jest.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
+    jest.spyOn(Logger.prototype, 'warn').mockImplementation(() => {});
+    jest.spyOn(Logger.prototype, 'debug').mockImplementation(() => {});
+    jest.spyOn(Logger.prototype, 'verbose').mockImplementation(() => {});
   });
 
   afterAll(() => {
-    loggerErrorSpy.mockRestore();
+    jest.restoreAllMocks();
   });
+
 
   beforeEach(() => {
 

@@ -15,15 +15,19 @@ describe('PropertiesService', () => {
   let service: PropertiesService;
   let prismaService: PrismaService;
   let configService: ConfigService;
-  let loggerErrorSpy: jest.SpyInstance;
-
   beforeAll(() => {
-    loggerErrorSpy = jest.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
+    // Suppress ALL Logger messages for this test suite
+    jest.spyOn(Logger.prototype, 'log').mockImplementation(() => {});
+    jest.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
+    jest.spyOn(Logger.prototype, 'warn').mockImplementation(() => {});
+    jest.spyOn(Logger.prototype, 'debug').mockImplementation(() => {});
+    jest.spyOn(Logger.prototype, 'verbose').mockImplementation(() => {});
   });
 
   afterAll(() => {
-    loggerErrorSpy.mockRestore();
+    jest.restoreAllMocks();
   });
+
 
 
   const mockUser = {
@@ -106,10 +110,8 @@ describe('PropertiesService', () => {
     service = module.get<PropertiesService>(PropertiesService);
     prismaService = module.get<PrismaService>(PrismaService);
     configService = module.get<ConfigService>(ConfigService);
-
-    // Suppress expected error logs in console
-    jest.spyOn((service as any).logger, 'error').mockImplementation(() => {});
   });
+
 
 
   afterEach(() => {
